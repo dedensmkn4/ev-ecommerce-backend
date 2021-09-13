@@ -1,0 +1,8 @@
+/bin
+/release
+/vendor
+.envrc
+.env
+*.test
+*.out
+.idea/
