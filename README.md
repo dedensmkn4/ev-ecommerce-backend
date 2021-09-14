@@ -9,15 +9,18 @@ Let's take one case at a time. It's a one-day sale. They have a limited supply, 
 - Poor Inventory Management, no realtime notification of remaining stock
 
 #Implementation
-###How To Run
+- 
+- Clean architecture. [See](https://github.com/golang-standards/project-layout)
+- Row Locking Transaction. [See](./internal/app/adapter/postgresrepository/product.go)
+- Transactions included. [See](./internal/app/domain/usecase/order_cart.go)
+- Stock checking in [See](./assets/img_4.png)
+
+### How To Run
 - Copy paste .env.sample to .env. 
 - import db in `database\ecommerce_poc_db.sql`
 - Run Project `go run .\cmd\ev-ecommerce-backend\main.go`
 
-##Clean architecture. [See](https://github.com/golang-standards/project-layout)
-##Row Locking Transaction. [See](./internal/app/adapter/postgresrepository/product.go)
-##DB Transactions included. [See](./internal/app/domain/usecase/order_cart.go)
-##-Stock checking in [See](./assets/img_4.png)
+
 
 API Docs : [See](./api/rest-client/ev-ecommerce-backend.http)
 
