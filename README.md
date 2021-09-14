@@ -1,6 +1,6 @@
 # ev-ecommerce-backend
 
-#Problem
+# Problem
 Let's take one case at a time. It's a one-day sale. They have a limited supply, yet thousands, if not millions, of people want to buy something.  Imagine if a million individuals hit the checkout button at the same time, and the stock management is abysmal. What is going to happen? Yes, a stock with a negative value. So, what is the root of the problem? There are several causes for this.
 
 - Because of the race condition, the value of the variable changed. A race condition happens when multiple threads/processes attempt to modify the same data at the same time. For example, suppose you save the stock price in a variable and then numerous goroutines alter it at the same time. The stock value is then entered into a database. For example implementation see this repo [here](https://github.com/dedensmkn4/utama-real-estate)
@@ -8,7 +8,7 @@ Let's take one case at a time. It's a one-day sale. They have a limited supply, 
 - Row locking isn't used in this transaction. This advanced issue occurs only when two or more requests arrive at the same time. You may find out more by clicking [here](https://www.postgresql.org/docs/9.1/explicit-locking.html).
 - Poor Inventory Management, no realtime notification of remaining stock
 
-#Implementation
+# Implementation
 - 
 - Clean architecture. [See](https://github.com/golang-standards/project-layout)
 - Row Locking Transaction. [See](./internal/app/adapter/postgresrepository/product.go)
