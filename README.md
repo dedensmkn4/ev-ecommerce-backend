@@ -12,7 +12,7 @@ Let's take one case at a time. It's a one-day sale. They have a limited supply, 
 - 
 - Clean architecture. [See](https://github.com/golang-standards/project-layout)
 - Row Locking Transaction. [See](./internal/app/adapter/postgresrepository/product.go)
-- Transactions included. [See](./internal/app/domain/usecase/order_cart.go)
+- Db Transactions included. [See](./internal/app/domain/usecase/order_cart.go)
 - Stock checking in [See](./assets/img_4.png)
 
 ### How To Run
