@@ -6,7 +6,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 	"github.com/dedensmkn4/ev-ecommerce-backend/internal/app/domain"
 	"github.com/dedensmkn4/ev-ecommerce-backend/internal/app/domain/port"
-	"github.com/dedensmkn4/ev-ecommerce-backend/pkg/sqkit"
+	"github.com/typical-go/typical-rest-server/pkg/sqkit"
 	log "github.com/sirupsen/logrus"
 
 )
@@ -56,7 +56,7 @@ func (u userRepositoryImpl) Find(ctx context.Context, opts ...sqkit.SelectOption
 			log.Error(err)
 			return
 		}
+		users = append(users, user)
 	}
-
 	return
 }

@@ -5,7 +5,7 @@ type (
 		ID          string    	`json:"id"`
 		Code       	string    	`json:"code"`
 		Name	 	string    	`json:"name"`
-		Desc   		bool      	`json:"desc"`
+		Desc   		string      	`json:"desc"`
 		Stock 		int    		`json:"stock"`
 		Price 		int    		`json:"price"`
 	}
@@ -13,10 +13,17 @@ type (
 	ProductPayload struct {
 		Code       	string    	`json:"code" validate:"required,omitempty,max-10"`
 		Name	 	string    	`json:"name" validate:"required,omitempty"`
-		Desc   		bool      	`json:"desc" validate:"required,omitempty"`
+		Desc   		string      	`json:"desc" validate:"required,omitempty"`
 		Stock 		int    		`json:"stock" validate:"required,omitempty"`
 		Price 		int    		`json:"price" validate:"required,omitempty"`
 	}
+
+	FindProductFilter struct {
+		Limit  uint64 `query:"limit"`
+		Offset uint64 `query:"offset"`
+		Sort   string `query:"sort"`
+	}
+
 )
 
 var (

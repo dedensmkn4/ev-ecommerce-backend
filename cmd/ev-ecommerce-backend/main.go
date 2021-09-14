@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/dedensmkn4/ev-ecommerce-backend/internal/app"
 	"github.com/dedensmkn4/ev-ecommerce-backend/internal/app/config"
-	"github.com/dedensmkn4/ev-ecommerce-backend/internal/app/infra/postgresdb"
 	"github.com/joho/godotenv"
 	"net/http"
 	"os"
@@ -20,11 +19,7 @@ func main() {
 	}
 
 	cfg := config.NewConfig()
-
-	db := postgresdb.NewPgDb(cfg)
-
-
-	e := app.Start(cfg, db)
+	e := app.Start(cfg)
 
 	go func() {
 		if err := e.Start(":" + cfg.Address); err != nil && err != http.ErrServerClosed {

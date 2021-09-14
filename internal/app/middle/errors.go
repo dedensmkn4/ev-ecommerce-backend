@@ -10,6 +10,11 @@ import (
 func HTTPCustomError(e error, c echo.Context) {
 	code := http.StatusInternalServerError
 	reason := make([]string, 0)
+	message := e.Error()
+
+	if len(message) > 0 {
+		reason = append(reason, message)
+	}
 
 	if he, ok := e.(*echo.HTTPError); ok {
 		code = he.Code
@@ -27,9 +32,9 @@ func HTTPCustomError(e error, c echo.Context) {
 	}
 
 	c.JSON(code, response.ErrorBody{
-		Code: http.StatusText(code),
-		Error:   true,
+		Code:	code,
 		Message: http.StatusText(code),
+		Error:   true,
 		Reason:  reason,
 	})
 }

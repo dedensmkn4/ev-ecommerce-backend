@@ -17,7 +17,7 @@ import (
 
 
 // Start app
-func Start(cfg *config.Config, db *postgresdb.PgDb) *echo.Echo {
+func Start(cfg *config.Config) *echo.Echo {
 	e := echo.New()
 	v := validation.New()
 
@@ -34,26 +34,36 @@ func Start(cfg *config.Config, db *postgresdb.PgDb) *echo.Echo {
 
 	e.Use(middle.Logger())
 
+	postgresDb := postgresdb.NewPgDb()
+	db := postgresDb.OpenPostgres(cfg)
 
 	//register all repo
-	productRepo 			:= postgresrepository.NewProductRepository(db.Pg)
-	orderCartRepo			:= postgresrepository.NewOrderCartRepository(db.Pg)
-	orderCartDetailRepo 	:= postgresrepository.NewOrderCartDetailRepository(db.Pg)
-	userRepo				:= postgresrepository.NewUserRepository(db.Pg)
+	productRepo 			:= postgresrepository.NewProductRepository(db)
+	orderCartRepo			:= postgresrepository.NewOrderCartRepository(db)
+	orderCartDetailRepo 	:= postgresrepository.NewOrderCartDetailRepository(db)
+	userRepo				:= postgresrepository.NewUserRepository(db)
+	cartItemRepo			:= postgresrepository.NewCartItemRepository(db)
 
 	//register all usecase
-	productUseCase 	:= usecase.NewProductUseCase(productRepo)
-	orderCartUseCase 	:= usecase.NewOrderCartUseCase(orderCartRepo, orderCartDetailRepo, userRepo, productRepo)
+	productUseCase 	:= usecase.NewProductUseCase(productRepo, postgresDb)
+	orderCartUseCase 	:= usecase.NewOrderCartUseCase(orderCartRepo, orderCartDetailRepo, userRepo, productRepo, cartItemRepo, postgresDb)
 
 	// register handler
 	h := handler.NewHandler(handler.HandlerConfig{
 		Validator:   v,
 		ProductUseCase: productUseCase,
-		OrderUseCase: orderCartUseCase,
+		OrderCartUseCase: orderCartUseCase,
 	})
 
-	e.GET("/product/:id", h.FindProductById)
-	e.POST("/cart/add", h.AddToCart)
+	group := e.Group("/ev-ecommerce")
+
+	//product
+	group.GET("/product", h.GetAllProduct)
+	group.GET("/product/:id", h.FindProductById)
+
+	//order
+	group.POST("/cart/add", h.AddToCart)
+	group.POST("/order/checkout", h.OrderCheckout)
 
 	return e
 }

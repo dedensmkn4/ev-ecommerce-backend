@@ -3,7 +3,7 @@ package port
 import (
 	"context"
 	"github.com/dedensmkn4/ev-ecommerce-backend/internal/app/domain"
-	"github.com/dedensmkn4/ev-ecommerce-backend/pkg/sqkit"
+	"github.com/typical-go/typical-rest-server/pkg/sqkit"
 )
 
 type UserRepository interface {

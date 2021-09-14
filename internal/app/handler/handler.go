@@ -11,14 +11,14 @@ type (
 		config    *config.Config
 		validate  *validation.Validation
 		productUseCase port.ProductUseCase
-		orderUseCase port.OrderUseCase
+		orderCartUseCase port.OrderCartUseCase
 	}
 
 	HandlerConfig struct {
 		Config      *config.Config
 		Validator   *validation.Validation
 		ProductUseCase port.ProductUseCase
-		OrderUseCase port.OrderUseCase
+		OrderCartUseCase port.OrderCartUseCase
 	}
 )
 
@@ -27,6 +27,6 @@ func NewHandler(hc HandlerConfig) *Handler {
 		config:    hc.Config,
 		validate:  hc.Validator,
 		productUseCase : hc.ProductUseCase,
-		orderUseCase: hc.OrderUseCase,
+		orderCartUseCase: hc.OrderCartUseCase,
 	}
 }

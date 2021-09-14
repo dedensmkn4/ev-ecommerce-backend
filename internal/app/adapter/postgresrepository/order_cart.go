@@ -3,14 +3,17 @@ package postgresrepository
 import (
 	"context"
 	"database/sql"
+	"fmt"
+	sq "github.com/Masterminds/squirrel"
 	"github.com/dedensmkn4/ev-ecommerce-backend/internal/app/domain"
 	"github.com/dedensmkn4/ev-ecommerce-backend/internal/app/domain/port"
+	log "github.com/sirupsen/logrus"
+	"time"
 )
 
 type orderCartRepositoryImpl struct {
 	pg *sql.DB
 }
-
 
 func NewOrderCartRepository(pg *sql.DB)  port.OrderCartRepository{
 	return &orderCartRepositoryImpl{
@@ -18,35 +21,33 @@ func NewOrderCartRepository(pg *sql.DB)  port.OrderCartRepository{
 	}
 }
 
-func (o orderCartRepositoryImpl) CreateCart(ctx context.Context, dbTx *sql.Tx, userID int) (cartID int, err error) {
-	panic("implement me")
-}
+func (o orderCartRepositoryImpl) Insert(ctx context.Context, dbTx *sql.Tx, ent *domain.OrderCart) (int, error) {
+	builder := sq.
+		Insert(domain.OrderCartTableName).
+		Columns(
+			domain.OrderCartTable.UserId,
+			domain.OrderCartTable.TotalPrice,
+			domain.OrderCartTable.OrderStatus,
+			domain.OrderCartTable.Date,
+			domain.OrderCartTable.TimeLimitPayment,
+		).
+		Suffix(
+			fmt.Sprintf("RETURNING \"%s\"", domain.OrderCartTable.ID),
+		).
+		PlaceholderFormat(sq.Dollar).
+		Values(
+			ent.UserId,
+			ent.TotalPrice,
+			ent.OrderStatus,
+			time.Now(),
+			time.Now().Add(time.Minute*60),
+		)
 
-func (o orderCartRepositoryImpl) InsertCartItems(ctx context.Context, dbTx *sql.Tx, cartID int, productCode string, Qty int) error {
-	panic("implement me")
+	scanner := builder.RunWith(dbTx).QueryRowContext(ctx)
+	var id int
+	if err := scanner.Scan(&id); err != nil {
+		log.Error(err)
+		return -1, err
+	}
+	return id, nil
 }
-
-func (o orderCartRepositoryImpl) CheckUserByID(ctx context.Context, dbTx *sql.Tx, userID int) (int, error) {
-	panic("implement me")
-}
-
-func (o orderCartRepositoryImpl) GetCartData(ctx context.Context, dbTx *sql.Tx, cartID int, isRowLocking bool) (domain.CartData, error) {
-	panic("implement me")
-}
-
-func (o orderCartRepositoryImpl) CreateOrders(ctx context.Context, dbTx *sql.Tx, userID int) (int, error) {
-	panic("implement me")
-}
-
-func (o orderCartRepositoryImpl) InsertOrderItems(ctx context.Context, dbTx *sql.Tx, orderID int, productCode string, qty int) error {
-	panic("implement me")
-}
-
-func (o orderCartRepositoryImpl) DeleteCart(ctx context.Context, dbTx *sql.Tx, cartID int) error {
-	panic("implement me")
-}
-
-func (o orderCartRepositoryImpl) CleanCartAndOrders(ctx context.Context) error {
-	panic("implement me")
-}
-
