@@ -1,0 +1,32 @@
+GET http://localhost:8097/ev-ecommerce/product?limit=10&offset=0
+
+
+###
+POST http://localhost:8097/ev-ecommerce/order/checkout
+Content-Type: application/json
+
+{
+  "userId" : 1,
+  "orderCartDetail" : [
+    {
+      "cart_detail_id" : 24,
+      "productId" : 1,
+      "price" : 1000,
+      "quantity" : 1
+    }
+  ]
+}
+
+###
+POST http://localhost:8097/ev-ecommerce/cart/add
+Content-Type: application/json
+
+{
+  "userId" : 1,
+  "productId": 1,
+  "quantity" : 1
+}
+
+###
+GET http://localhost:8097/ev-ecommerce/product/1
+
