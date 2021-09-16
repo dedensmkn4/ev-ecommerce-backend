@@ -20,7 +20,8 @@ Let's take one case at a time. It's a one-day sale. They have a limited supply, 
 - import db in `database\ecommerce_poc_db.sql`
 - Run Project `go run .\cmd\ev-ecommerce-backend\main.go`
 
-
+DB Schema
+![db-schema](./assets/img_5.png)
 
 API Docs : [See](./api/rest-client/ev-ecommerce-backend.http)
 
