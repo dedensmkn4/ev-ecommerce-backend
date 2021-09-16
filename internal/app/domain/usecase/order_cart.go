@@ -143,6 +143,8 @@ func (o orderCartUseCaseImpl) Checkout(ctx context.Context, param domain.OrderCh
 		}
 
 		//decrease stock
+		newStock := productDb.Stock - carDetailParam.Quantity
+		productDb.Stock = newStock
 		_,err = o.updateStockProduct(ctx, dbTx, carDetailParam.ProductId, productDb)
 		if err != nil {
 			_ = dbTx.Rollback()
@@ -202,7 +204,6 @@ func (o orderCartUseCaseImpl) validatedProduct(ctx context.Context, dbTx *sql.Tx
 }
 
 func (o orderCartUseCaseImpl) updateStockProduct(ctx context.Context, dbTx *sql.Tx, paramProductId int, product *domain.Product) (int, error) {
-	product.Stock = product.Stock-1
 	return o.productRepository.Update(ctx, dbTx, product, sqkit.Eq{domain.ProductTable.ID: paramProductId})
 }
 
